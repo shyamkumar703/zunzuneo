@@ -9,17 +9,17 @@ import (
 
 var (
 	supabaseClient *supabase.Client
+	err            error
 	once           sync.Once
 )
 
 // returns a singleton instance of
 // supabase.Client
 func GetSupabaseClient() (*supabase.Client, error) {
-	url := os.Getenv("DB_URL")
-	key := os.Getenv("DB_KEY")
-	client, err := supabase.NewClient(url, key, &supabase.ClientOptions{})
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
+	once.Do(func() {
+		url := os.Getenv("DB_URL")
+		key := os.Getenv("DB_KEY")
+		supabaseClient, err = supabase.NewClient(url, key, &supabase.ClientOptions{})
+	})
+	return supabaseClient, err
 }
