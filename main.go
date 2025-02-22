@@ -7,18 +7,12 @@ import (
 )
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		panic(err)
+	envError := godotenv.Load(".env")
+	if envError != nil {
+		panic(envError)
 	}
-	openAIClient := dependencies.GetOpenAIClient()
-	if openAIClient == nil {
-		panic("openai client is nil")
-	}
-	supabaseClient, err := dependencies.GetSupabaseClient()
-	if err != nil {
-		panic(err)
-	} else if supabaseClient == nil {
-		panic("client is nil")
+	depErr := dependencies.Inject()
+	if depErr != nil {
+		panic(depErr)
 	}
 }
