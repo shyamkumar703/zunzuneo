@@ -8,18 +8,18 @@ import (
 )
 
 var (
-	supabaseClient *supabase.Client
-	err            error
-	once           sync.Once
+	supabaseClient  *supabase.Client
+	supabaseInitErr error
+	supabaseOnce    sync.Once
 )
 
 // returns a singleton instance of
 // supabase.Client
 func GetSupabaseClient() (*supabase.Client, error) {
-	once.Do(func() {
+	supabaseOnce.Do(func() {
 		url := os.Getenv("DB_URL")
 		key := os.Getenv("DB_KEY")
-		supabaseClient, err = supabase.NewClient(url, key, &supabase.ClientOptions{})
+		supabaseClient, supabaseInitErr = supabase.NewClient(url, key, &supabase.ClientOptions{})
 	})
-	return supabaseClient, err
+	return supabaseClient, supabaseInitErr
 }

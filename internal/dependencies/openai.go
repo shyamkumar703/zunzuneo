@@ -2,6 +2,7 @@ package dependencies
 
 import (
 	"os"
+	"sync"
 
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
@@ -9,13 +10,13 @@ import (
 
 var (
 	openaiClient *openai.Client
+	openaiOnce   sync.Once
 )
 
-func GetOpenAIClient() (*openai.Client, error) {
-	var err error
-	once.Do(func() {
+func GetOpenAIClient() *openai.Client {
+	openaiOnce.Do(func() {
 		key := os.Getenv("OPEN_AI_KEY")
 		openaiClient = openai.NewClient(option.WithAPIKey(key))
 	})
-	return openaiClient, err
+	return openaiClient
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"zunzuneo/internal/dependencies"
 
 	"github.com/joho/godotenv"
@@ -12,12 +11,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	client, err := dependencies.GetSupabaseClient()
+	openAIClient := dependencies.GetOpenAIClient()
+	if openAIClient == nil {
+		panic("openai client is nil")
+	}
+	supabaseClient, err := dependencies.GetSupabaseClient()
 	if err != nil {
 		panic(err)
-	} else if client == nil {
+	} else if supabaseClient == nil {
 		panic("client is nil")
-	} else {
-		fmt.Printf("everything is good!\n")
 	}
 }
