@@ -17,3 +17,6 @@ func TestNewOpenAIClient(t *testing.T) {
 		t.Fatalf("initialization did not return an error, but client is nil")
 	}
 }
+
+func TestOpenAICreateTweet(t *testing.T) {
+}
