@@ -22,7 +22,7 @@ func GetOpenAIClient() *openai.Client {
 	return openaiClient
 }
 
-func RequstLLM(prompt string, ctx *context.Context) (*string, error) {
+func RequestLLM(prompt string, ctx *context.Context) (*string, error) {
 	client := GetOpenAIClient()
 	if client == nil {
 		panic("open ai client is nil after injection")
